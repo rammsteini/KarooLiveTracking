@@ -1,0 +1,52 @@
+﻿@page "/"
+@page "/{Id}"
+
+<div><DPBlazorMapLibrary.Map @ref="map" MapOptions="@mapOptions" CssClass="mapClass" AfterRender="@AfterMapRender"></DPBlazorMapLibrary.Map></div>
+
+<div class="absolute">
+    <Row>
+        <Col Span="8">
+
+        <h5>@trackRiderName</h5>
+
+        </Col>
+        <Col Span="8">
+        updated @trackUpdatedAtString ago
+        </Col>
+        <Col Span="4">
+        <Input @bind-Value="@Id" OnkeyDown="OnkeyDownAsync" Placeholder="ID" Size="small"></Input>
+        </Col>
+
+        <Col Span="4">
+        <Checkbox @bind-Value="@metric" OnChange="MetricCheckboxChanged">Metric</Checkbox>
+        </Col>
+    </Row>
+
+    <Descriptions Bordered Size="small">
+        <DescriptionsItem Title="Distance:">@trackDistance</DescriptionsItem>
+        <DescriptionsItem Title="Duration:">@trackDuration</DescriptionsItem>
+        <DescriptionsItem Title="Ascent:">@trackAscent</DescriptionsItem>
+        <DescriptionsItem Title="Avg.Speed:">@trackAvgSpeed</DescriptionsItem>
+    </Descriptions>
+</div>
+
+<style>
+    .mapClass {
+        height: 100vh;
+        width: 100vw;
+        z-index: 0;
+    }
+
+    div.absolute {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        z-index: 1;
+        background: white;
+        padding: 10px;
+    }
+
+    svg {
+        transform: rotate(180deg);
+    }
+</style>
