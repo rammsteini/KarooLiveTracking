@@ -27,7 +27,7 @@ namespace KarooLiveTracking.Pages
         [Inject] public LayerFactory? LayerFactory { get; init; }
 
         [Inject] public Blazored.LocalStorage.ISyncLocalStorageService LocalStorage { get; set; }
-        [Inject] public NavigationManager NavigationManager { get; init; }
+        //[Inject] public NavigationManager NavigationManager { get; init; }
 
         #endregion Injects
 
@@ -37,7 +37,7 @@ namespace KarooLiveTracking.Pages
 
         private static readonly HttpClient HttpClient = new();
 
-        private static readonly string LocalStorageKeyId = "{273242AA-D517-4A71-9078-E819DB15373E}";
+        //private static readonly string LocalStorageKeyId = "{273242AA-D517-4A71-9078-E819DB15373E}";
 
         private static readonly string LocalStorageKeyMetric = "{B38C7188-466C-42CF-96AA-0B77E478851A}";
 
@@ -190,10 +190,10 @@ namespace KarooLiveTracking.Pages
             //get data from local storage
             metric = LocalStorage.GetItem<bool>(LocalStorageKeyMetric);
 
-            if (Id == null)
-            {
-                Id = LocalStorage.GetItem<string>(LocalStorageKeyId);
-            }
+            //if (Id == null)
+            //{
+            //    Id = LocalStorage.GetItem<string>(LocalStorageKeyId);
+            //}
         }
 
         private async Task AfterMapRender()
@@ -270,7 +270,7 @@ namespace KarooLiveTracking.Pages
 
         private async Task<bool> DownloadData()
         {
-            LocalStorage.SetItem<string>(LocalStorageKeyId, Id);
+            //LocalStorage.SetItem<string>(LocalStorageKeyId, Id);
 
             if (offlineTest)
             {
