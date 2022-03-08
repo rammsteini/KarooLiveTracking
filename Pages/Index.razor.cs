@@ -362,7 +362,7 @@ namespace KarooLiveTracking.Pages
             try
             {
                 trackRiderName = liveTrack.riderName;
-                trackRiderName = "Max Susanne Mustermann";
+                //trackRiderName = "Max Susanne Mustermann";
 
                 var span = TimeSpan.FromMilliseconds((double)liveTrack.activityInfo.Find(r => r.key == "TYPE_ELAPSED_TIME_ID").value.value);
                 trackDuration = $"{(int)span.TotalHours:00}:{span.Minutes:00}:{span.Seconds:00}";
