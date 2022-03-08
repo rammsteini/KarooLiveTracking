@@ -362,6 +362,7 @@ namespace KarooLiveTracking.Pages
             try
             {
                 trackRiderName = liveTrack.riderName;
+                trackRiderName = "Max Susanne Mustermann";
 
                 var span = TimeSpan.FromMilliseconds((double)liveTrack.activityInfo.Find(r => r.key == "TYPE_ELAPSED_TIME_ID").value.value);
                 trackDuration = $"{(int)span.TotalHours:00}:{span.Minutes:00}:{span.Seconds:00}";
@@ -377,6 +378,8 @@ namespace KarooLiveTracking.Pages
                 var avgSpeed = liveTrack.activityInfo.Find(r => r.key == "TYPE_AVERAGE_SPEED_ID").value.value;
                 avgSpeed *= metric ? 1.0 : 0.621371;
                 trackAvgSpeed = $"{avgSpeed:N1}{(metric ? "km/h" : "mph")}";
+
+                StateHasChanged();
             }
             catch
             {

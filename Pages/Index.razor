@@ -3,7 +3,7 @@
 
 <div><DPBlazorMapLibrary.Map @ref="map" MapOptions="@mapOptions" CssClass="mapClass" AfterRender="@AfterMapRender"></DPBlazorMapLibrary.Map></div>
 
-<div class="absolute">
+@*<div class="absolute">
     <Row>
         <Col Span="8">
 
@@ -28,6 +28,33 @@
         <DescriptionsItem Title="Ascent:">@trackAscent</DescriptionsItem>
         <DescriptionsItem Title="Avg.Speed:">@trackAvgSpeed</DescriptionsItem>
     </Descriptions>
+</div>*@
+
+<div class="ActivityOverlay popup-menu">
+	<div class="header">
+@*		<div class="riderIcon riding"/>*@
+		<div class="name">@trackRiderName</div>
+		<div class="updatedAt">Updated @trackUpdatedAtString ago</div><br />
+        <Checkbox @bind-Value="@metric" OnChange="MetricCheckboxChanged"><span class="key">Metric</span></Checkbox>
+	</div>
+	<div class="fieldContainer">
+		<div class="field">
+			<span class="key">Ascent:</span>
+			<span class="value">@trackAscent</span>
+		</div>
+		<div class="field">
+			<span class="key">Ride Time:</span>
+			<span class="value">@trackDuration</span>
+		</div>
+		<div class="field">
+			<span class="key">Distance:</span>
+			<span class="value">@trackDistance</span>
+		</div>
+		<div class="field">
+			<span class="key">Avg Speed:</span>
+			<span class="value">@trackAvgSpeed</span>
+		</div>
+	</div>
 </div>
 
 <style>
@@ -46,7 +73,105 @@
         padding: 10px;
     }
 
-    svg {
-        transform: rotate(180deg);
-    }
+/* temp until better styling */
+.ActivityOverlay {
+  position: absolute;
+  left: 10px;
+  right: 40px;
+  bottom: 10px;
+  z-index: 1;
+  width: 300px;
+}
+
+.ActivityOverlay {
+  border: solid 2px #000;
+  background-color: rgba(0, 0, 0, 0.75);
+  border-radius: 4px;
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.12), 0 2px 2px 0 rgba(0, 0, 0, 0.24);
+}
+
+
+
+.ActivityOverlay .header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 50px;
+}
+
+.ActivityOverlay .name {
+  max-width: 120px;
+  font-size: 16px;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ActivityOverlay .riderIcon {
+  height: 36px;
+  width: 36px;
+  background-image: url(../assets/icons/live-tracking/rider-icon-riding.svg);
+}
+
+.ActivityOverlay .riderIcon.paused {
+  background-image: url(../assets/icons/live-tracking/rider-icon-paused.svg);
+}
+
+.ActivityOverlay .riderIcon.idle {
+  background-image: url(../assets/icons/live-tracking/rider-icon-idle.svg);
+}
+
+.ActivityOverlay .updatedAt {
+  font-size: 10px;
+  color: #bdbdbd;
+}
+
+.ActivityOverlay .fieldContainer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.ActivityOverlay .field:nth-child(odd) {
+  border-right: solid 1px #a6a6a6;
+}
+
+.ActivityOverlay .field:nth-last-child(1),
+.ActivityOverlay .field:nth-last-child(2):nth-child(odd) {
+  border-bottom: none;
+}
+
+.ActivityOverlay .field:nth-child(1),
+.ActivityOverlay .field:nth-child(2) {
+  border-top: solid 1px #a6a6a6;
+}
+
+.ActivityOverlay .field {
+  border-bottom: solid 1px #a6a6a6;
+  width: 50%;
+  height: 30px;
+  line-height: 30px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+  text-align: center;
+  vertical-align: middle;
+  color: #fff;
+}
+
+.ActivityOverlay .field .key {
+  color: #bdbdbd;
+}
+
+.ActivityOverlay .footer {
+  background-color: #9021c9;
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+}
+
+
+
 </style>
