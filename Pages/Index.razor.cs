@@ -155,7 +155,7 @@ namespace KarooLiveTracking.Pages
         private async Task OnkeyDownAsync()
         {
             await RefreshMap();
-            NavigationManager.NavigateTo($"/{Id}");
+            //NavigationManager.NavigateTo($"/{Id}");
         }
 
         #endregion Events
@@ -204,7 +204,7 @@ namespace KarooLiveTracking.Pages
 
             var mainTileLayer = await LayerFactory.CreateTileLayerAndAddToMap("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", map, tileLayerOptions);
 
-            NavigationManager.NavigateTo($"/{Id}");
+            //NavigationManager.NavigateTo($"/{Id}");
 
             await map.PanTo(new LatLng(47, 13));
             await map.SetZoom(5);
