@@ -29,19 +29,18 @@
     </div>
 </div>
 
-
 <Modal Title="Settings"
        Visible="@settingsVisible"
        OnOk="@HandleOkAsync"
        OnCancel="@HandleCancel">
     <Row>
-        <Col Span="7">Karoo tracking ID:</Col>
-        <Col Span="17"><Input @bind-Value="@Id" OnkeyDown="OnkeyDownAsync" Placeholder="ID" Size="small"></Input></Col>
+        <Col Span="8">Tracking ID:</Col>
+        <Col Span="16"><Input @bind-Value="@Id" OnkeyDown="OnkeyDownAsync" Placeholder="ID" Size="small"></Input></Col>
     </Row>
     <Space></Space>
     <Row>
-        <Col Span="7">Metric units:</Col>
-        <Col Span="17"><Checkbox @bind-Value="@metric" OnChange="MetricCheckboxChanged"></Checkbox></Col>
+        <Col Span="8">Metric units:</Col>
+        <Col Span="16"><Checkbox @bind-Value="@metric" OnChange="MetricCheckboxChanged"></Checkbox></Col>
     </Row>
 
 </Modal>
@@ -77,8 +76,6 @@
         border-radius: 4px;
         box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.12), 0 2px 2px 0 rgba(0, 0, 0, 0.24);
     }
-
-
 
         .ActivityOverlay .header {
             display: flex;
