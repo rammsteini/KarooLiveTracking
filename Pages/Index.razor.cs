@@ -42,6 +42,7 @@ namespace KarooLiveTracking.Pages
 		private readonly List<Marker> livetrackPOIMarkers = new();
 		private readonly MapOptions mapOptions = new();
 		private readonly string url = @"https://storagekarootrack.blob.core.windows.net/tracking/";
+		//private readonly string url = @"https://dashboard.hammerhead.io/v1/shares/tracking/"
 		private int cnt = 0;
 		private bool firsttime = true;
 		private int formerPointsOfInterestHash = 0;
@@ -179,6 +180,9 @@ namespace KarooLiveTracking.Pages
 
 		protected override async void OnInitialized()
 		{
+			NavigationManager.NavigateTo("stop");
+
+
 			//only for testing
 			if (offlineTest)
 			{
@@ -454,6 +458,7 @@ namespace KarooLiveTracking.Pages
 				{
 					await routePolyline.Remove();
 				}
+
 				routePolyline = await LayerFactory.CreatePolylineAndAddToMap(
 					Ce2ll(ce),
 					map,
@@ -475,6 +480,9 @@ namespace KarooLiveTracking.Pages
 				{
 					await livetrackTrackPolyline.Remove();
 				}
+
+				var ccc = liveTrack.locations.Count();
+
 
 				livetrackTrackPolyline = await LayerFactory.CreatePolylineAndAddToMap(
 					L2ll(liveTrack.locations),
