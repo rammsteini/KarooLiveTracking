@@ -38,6 +38,7 @@ namespace KarooLiveTracking.Pages
 		private static readonly HttpClient HttpClient = new();
 		private static readonly string LocalStorageKeyId = "{273242AA-D517-4A71-9078-E819DB15373E}";
 		private static readonly string LocalStorageKeyMetric = "{B38C7188-466C-42CF-96AA-0B77E478851A}";
+		private static readonly string LocalStorageKeySatellite = "{F311654D-1268-4A56-9339-1CEAED1A31A2}";
 		private readonly List<Marker> livetrackPOIMarkers = new();
 		private readonly MapOptions mapOptions = new();
 		private readonly string url = @"https://storagekarootrack.blob.core.windows.net/tracking/";
@@ -45,6 +46,8 @@ namespace KarooLiveTracking.Pages
 		private bool firsttime = true;
 		private int formerPointsOfInterestHash = 0;
 		private string formerRoutePolylineString = "";
+		private TileLayer layerOSM;
+		private TileLayer layerSatellite;
 		private LiveTrack? liveTrack = null;
 		private Marker? livetrackCurrentLocationMarker = null;
 		private int livetrackOldLocationsCount = 0;
@@ -104,6 +107,8 @@ namespace KarooLiveTracking.Pages
 			Interval = 1000,
 		};
 
+		private bool layerShowSatellite = false;
+
 		private async void EverySecondJob(object? sender, ElapsedEventArgs e)
 		{
 			if (trackUpdatedAt != null)
@@ -142,6 +147,22 @@ namespace KarooLiveTracking.Pages
 			settingsVisible = false;
 		}
 
+		private async Task LayerChangedAsync()
+		{
+			if (layerShowSatellite)
+			{
+				await layerOSM.RemoveFrom(map);
+				await layerSatellite.AddTo(map);
+			}
+			else
+			{
+				await layerSatellite.RemoveFrom(map);
+				await layerOSM.AddTo(map);
+			}
+
+			LocalStorage.SetItem(LocalStorageKeySatellite, layerShowSatellite);
+		}
+
 		private void MetricCheckboxChanged()
 		{
 			RepaintData();
@@ -168,6 +189,7 @@ namespace KarooLiveTracking.Pages
 
 			//get data from local storage
 			metric = LocalStorage.GetItem<bool>(LocalStorageKeyMetric);
+			layerShowSatellite = LocalStorage.GetItem<bool>(LocalStorageKeySatellite);
 
 			if (Id == null)
 			{
@@ -182,12 +204,17 @@ namespace KarooLiveTracking.Pages
 
 		private async Task AfterMapRender()
 		{
-			var tileLayerOptions = new TileLayerOptions()
+			var layerSatelliteOptions = new TileLayerOptions()
 			{
-				Attribution = "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors"
+				Attribution = "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
 			};
+			layerSatellite = await LayerFactory.CreateTileLayerAndAddToMap("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png", map, layerSatelliteOptions);
 
-			var mainTileLayer = await LayerFactory.CreateTileLayerAndAddToMap("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", map, tileLayerOptions);
+			var layerOSMOptions = new TileLayerOptions()
+			{
+				Attribution = "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+			};
+			layerOSM = await LayerFactory.CreateTileLayerAndAddToMap("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", map, layerOSMOptions);
 
 			NavigationManager.NavigateTo($"{Id}");
 
@@ -196,6 +223,8 @@ namespace KarooLiveTracking.Pages
 
 			everySecondTimer.Elapsed += EverySecondJob;
 			everySecondTimer.Enabled = true;
+
+			await LayerChangedAsync();
 
 			await RefreshMap();
 		}

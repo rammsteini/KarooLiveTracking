@@ -42,6 +42,10 @@
         <Col Span="8">Metric units:</Col>
         <Col Span="16"><Checkbox @bind-Value="@metric" OnChange="MetricCheckboxChanged"></Checkbox></Col>
     </Row>
+        <Row>
+        <Col Span="8">Satellite:</Col>
+        <Col Span="16"><Checkbox @bind-Value="@layerShowSatellite" OnChange="LayerChangedAsync"></Checkbox></Col>
+    </Row>
 
 </Modal>
 
